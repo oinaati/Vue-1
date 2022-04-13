@@ -24,7 +24,7 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Bem-Vindo ao mundo de Vue.JS'
+      msg: 'Bem-Vindo ao mundo de Vue!!'
     }
   }
 }
