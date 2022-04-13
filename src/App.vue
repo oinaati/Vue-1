@@ -3,7 +3,7 @@
     <h1>{{ titulo }}</h1>
 
     <ul>
-      <li v-for="foto of fotos">
+      <li v-for='(foto, i) of fotos' :key='i'>
         <img :src="foto.url" :alt="foto.titulo" />
       </li>
     </ul>
