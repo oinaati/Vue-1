@@ -21,8 +21,8 @@ export default {
           titulo: "praia",
         },
         {
-          url: "https://blog.nascenteazul.com.br/wp-content/uploads/2021/07/fernando-de-noronha-paisagens-naturais-de-praia.png",
-          titulo: "praia",
+          url: "https://www.helenabordon.com/wp-content/uploads/2014/11/Krabi.jpg",
+          titulo: "praia 2",
         },
       ],
     };
