@@ -2,36 +2,54 @@
   <div class="corpo">
     <h1 class="centralizado">{{ titulo }}</h1>
 
-    <input type="search" class="filtro" v-on:input="filtro = $event.target.value" placeholder="filtre pelo título">
+    <!--@ é o mesmo que v-on | $event é do JS onde ele pega tudo o que acontece do que chama ele, no caso o filtro, 
+    "target" indica que está no input (onde filtra)-->
+    <input
+      type="search"
+      class="filtro"
+      @:input="filtro = $event.target.value" 
+      placeholder="filtre pelo título"
+    />
 
     <ul class="lista-fotos">
-      <!-- v-for="foto of fotos" -->
-      <li class="lista-fotos-item" v-for="(foto, i) of fotos" :key="i">
-
+      <!-- v-for="foto of fotosComFiltro" ou v-for="(foto, i) of fotosComFiltro" :key="i"-->
+      <li class="lista-fotos-item" v-for="(foto, i) of fotosComFiltro" :key="i">
         <meu-painel :titulo="foto.titulo">
-          <img class="imagem-responsiva" :src="foto.url" :alt="foto.titulo" />
+          <imagem-responsiva :src='foto.url' :titulo='foto.titulo'/>
         </meu-painel>
-
       </li>
     </ul>
+
   </div>
 </template>
 
 <script>
-import Painel from "./components/shared/painel/Painel.vue"
+import Painel from "./components/shared/painel/Painel.vue";
+import ImagemResponsiva from "./components/shared/imagem-responsiva/ImagemResponsiva.vue";
 
 export default {
-
   components: {
-    'meu-painel' : Painel
+    "meu-painel": Painel,
+    'imagem-responsiva': ImagemResponsiva,
   },
 
   data() {
     return {
       titulo: "Paisagens",
       fotos: [],
-      filtro: '',
+      filtro: "",
     };
+  },
+  
+  computed: {
+    fotosComFiltro() {
+      if (this.filtro) {
+        let exp = new RegExp(this.filtro.trim(), "i");
+        return this.fotos.filter((foto) => exp.test(foto.titulo));
+      } else {
+        return this.fotos;
+      }
+    },
   },
 
   created() {
@@ -45,7 +63,7 @@ export default {
 
 <style>
 .corpo {
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   width: 96%;
   margin: 0 auto;
 }
@@ -57,10 +75,6 @@ export default {
 }
 .lista-fotos .lista-fotos-item {
   display: inline-block;
-}
-
-.imagem-responsiva {
-  width: 100%;
 }
 
 .filtro {

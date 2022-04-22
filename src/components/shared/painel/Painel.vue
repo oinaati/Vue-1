@@ -1,13 +1,25 @@
 <template>
   <div class="painel">
-    <h2 class="painel-titulo">{{ titulo }}</h2>
-    <slot class="painel-conteudo"></slot>
+    <!--@ é o mesmo que v-on | Quando clicar no bloco, vai trocar o valor de visivel para ao contrário do valor atual-->
+    <h2 class="painel-titulo" @click="visivel = !visivel">{{ titulo }}</h2>
+    <!--transition só pode ter 1 elemento filho... ele limita esse elemento a receber um efeito-->
+    <transition name="painel-fade">
+      <div class="painel-conteudo" v-show="visivel">
+        <slot></slot>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
   props: ["titulo"],
+
+  data() {
+    return {
+      visivel: true,
+    };
+  },
 };
 </script>
 
@@ -34,6 +46,15 @@ export default {
 }
 
 * {
-    box-shadow: 5px 5px 5px;
+  box-shadow: 5px 5px 5px;
+}
+
+
+.painel-fade-enter, .painel-fade-leave-active {
+  opacity: 0;
+}
+
+.painel-fade-leave-active, .painel-fade-enter-active {
+  transition: opacity 0.3s;
 }
 </style>
