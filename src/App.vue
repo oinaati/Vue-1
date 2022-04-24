@@ -1,12 +1,29 @@
 <template>
   <div class="corpo">
-    <router-view></router-view>
+
+    <meu-menu :rotas="routes"/>
+
+    <transition name="pagina">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
+import { routes } from "./routes";
+import Menu from './components/shared/menu/Menu.vue';
+
 export default {
 
+  components: {
+  'meu-menu' : Menu
+  },
+
+  data() {
+    return {
+      routes,
+    };
+  },
 };
 </script>
 
@@ -15,5 +32,15 @@ export default {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   width: 96%;
   margin: 0 auto;
+}
+
+.pagina-enter,
+.pagina-leave-active {
+  opacity: 0;
+}
+
+.pagina-leave-active,
+.pagina-enter-active {
+  transition: opacity 0.2s;
 }
 </style>

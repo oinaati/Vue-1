@@ -25,15 +25,18 @@ export default {
 
 <style scoped>
 .painel {
-  padding: 0 auto;
+  background: whitesmoke;
   border: solid 2px grey;
+  padding: 0 auto;
+  box-shadow: 3px 3px 10px grey;
   display: inline-block;
   margin: 5px;
-  box-shadow: 5px 5px 10px grey;
   width: 200px;
   height: 100%;
   vertical-align: top;
   text-align: center;
+  border-radius: 10px;
+  font-size: 12px;
 }
 
 .painel .painel-titulo {
@@ -43,10 +46,11 @@ export default {
   margin: 0 0 15px 0;
   padding: 10px;
   text-transform: uppercase;
+  border-radius: 7px;
 }
 
 * {
-  box-shadow: 5px 5px 5px;
+  box-shadow: 3px 4px 4px;
 }
 
 
