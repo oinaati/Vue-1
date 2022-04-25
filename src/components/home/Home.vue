@@ -11,7 +11,7 @@
         <input
           type="search"
           class="filtro"
-          @:input="filtro = $event.target.value"
+          @input="filtro = $event.target.value"
           placeholder="filtre pelo título"
         />
       </center>
