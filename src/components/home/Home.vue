@@ -5,7 +5,7 @@
     </div>
     <!--@ é o mesmo que v-on | $event é do JS onde ele pega tudo o que acontece do que chama ele, no caso o filtro, 
     "target" indica que está no input (onde filtra)-->
-    <div>
+
       <center>
         <p>Pesquise:</p>
         <input
@@ -15,7 +15,7 @@
           placeholder="filtre pelo título"
         />
       </center>
-    </div>
+
     <div class="divisoria">
       <ul class="lista-fotos">
         <!-- v-for="foto of fotosComFiltro" ou v-for="(foto, i) of fotosComFiltro" :key="i"-->
@@ -30,7 +30,9 @@
             <meu-botao
               tipo="button"
               rotulo="REMOVER"
-              @click.native="remove(foto)"
+              @botaoAtivado="remove(foto)"
+              :confirmacao="true"
+              estilo="perigo"
             />
           </meu-painel>
         </li>
@@ -72,9 +74,7 @@ export default {
 
   methods: {
     remove(foto) {
-      if(confirm('Confirma operação?')) {
         alert("Removendo a foto" + foto.titulo);
-      }
     },
   },
 
