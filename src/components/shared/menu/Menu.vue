@@ -1,26 +1,26 @@
 <template>
-  <nav>
-    <ul>
-      <!--v-for="route in routes"-->
-      <li v-for="(rota, i) of rotas" :key="i">
-        <router-link :to="rota.path ? rota.path : '/'">
-          {{ rota.titulo }}
-        </router-link>
-      </li>
-    </ul>
-  </nav>
+  <div class="divisoria">
+    <nav>
+      <ul>
+        <!--v-for="route in routes"-->
+        <lu v-for="(rota, i) of rotas" :key="i">
+          <router-link :to="rota.path ? rota.path : '/'">
+            {{ rota.titulo }}
+          </router-link>
+        </lu>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <script>
 export default {
-
-props: {
+  props: {
     rotas: {
-        type: Array,
-        required: true
-    }
-}
-
+      type: Array,
+      required: true,
+    },
+  },
 };
 </script>
 

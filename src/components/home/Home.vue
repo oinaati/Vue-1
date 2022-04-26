@@ -15,7 +15,7 @@
           placeholder="filtre pelo título"
         />
       </center>
-
+    
     <div class="divisoria">
       <ul class="lista-fotos">
         <!-- v-for="foto of fotosComFiltro" ou v-for="(foto, i) of fotosComFiltro" :key="i"-->
@@ -25,7 +25,7 @@
           :key="i"
         >
           <meu-painel :titulo="foto.titulo">
-            <imagem-responsiva :src="foto.url" :titulo="foto.titulo" />
+            <imagem-responsiva v-meu-transform:scale.animate='1.2' :src="foto.url" :titulo="foto.titulo" />
 
             <meu-botao
               tipo="button"
@@ -108,8 +108,5 @@ export default {
   margin: 10px;
 }
 
-.divisoria {
-  margin: 5px;
-  background: ghostwhite;
-}
+
 </style>

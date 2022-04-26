@@ -34,6 +34,13 @@ export default {
   margin: 0 auto;
 }
 
+.divisoria {
+  margin: 5px;
+  padding: 5px;
+  background: #EBF4F4;
+  box-shadow: 2px 2px 4px #D7D7DE ;
+}
+
 .pagina-enter,
 .pagina-leave-active {
   opacity: 0;
