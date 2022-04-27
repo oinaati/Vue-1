@@ -3,11 +3,11 @@
     <nav>
       <ul>
         <!--v-for="route in routes"-->
-        <lu v-for="(rota, i) of rotas" :key="i">
+        <li v-for="(rota, i) of rotas" :key="i">
           <router-link :to="rota.path ? rota.path : '/'">
             {{ rota.titulo }}
           </router-link>
-        </lu>
+        </li>
       </ul>
     </nav>
   </div>

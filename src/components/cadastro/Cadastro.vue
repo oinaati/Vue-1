@@ -1,24 +1,27 @@
 <template>
   <div>
     <h2 class="centralizado">Cadastro</h2>
-    <h2 class="centralizado"></h2>
+    <h3 class="centralizado">{{ foto.titulo }}</h3>
 
     <center>
-      <form class="divisoria" @submit.prevent="grava()">
+      <form @submit.prevent="grava()">
         <div class="controle">
           <label for="titulo">Titulo</label>
-          <input id="titulo" autocomplete="off" @input="foto.titulo = $event.target.value" :value="foto.titulo"/>
+          <input v-model.lazy="foto.titulo" id="titulo" autocomplete="off" />
         </div>
 
         <div class="controle">
           <label for="url">URL</label>
-          <input id="url" autocomplete="off" @input="foto.url = $event.target.value" :value="foto.url"/>
-          <imagem-responsiva />
+          <input v-model.lazy="foto.url" id="url" autocomplete="off" />
         </div>
 
         <div class="controle">
           <label for="descricao">Descrição</label>
-          <textarea id="descricao" autocomplete="off" @input="foto.descricao = $event.target.value" :value="foto.descricao"></textarea>
+          <textarea
+            id="descricao"
+            autocomplete="off"
+            v-model="foto.descricao"
+          ></textarea>
         </div>
 
         <div class="centralizado">
@@ -28,6 +31,12 @@
           </router-link>
         </div>
 
+        <imagem-responsiva
+          class="foto-cadastro"
+          v-show="foto.url"
+          :src="foto.url"
+          :titulo="foto.titulo"
+        />
       </form>
     </center>
   </div>
@@ -36,35 +45,28 @@
 <script>
 import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
 import Botao from "../shared/botao/Botao.vue";
+import Foto from "../../domain/foto/Foto.js";
 
 export default {
   components: {
-    'imagem-responsiva': ImagemResponsiva,
-    'meu-botao': Botao,
+    "imagem-responsiva": ImagemResponsiva,
+    "meu-botao": Botao,
   },
 
   data() {
     return {
-      foto: {
-        titulo: "",
-        url: "",
-        descricao: "",
-      },
+      foto: new Foto(),
     };
   },
 
   methods: {
-
-      grava() {
-           console.log(this.foto);
-           console.log('enviar dados para a API');
-           this.foto = {
-               titulo:'',
-               utl:'',
-               descricao:''
-           }
-      }
-  }
+    grava() {
+      this.$http.post("http://localhost:3000/v1/fotos", this.foto).then(
+        () => (this.foto = new Foto()),
+        (err) => console.log(err)
+      );
+    },
+  },
 };
 </script>
 
@@ -72,12 +74,10 @@ export default {
 .centralizado {
   text-align: center;
 }
-
 .controle {
-  font-size: 14px;
+  font-size: 18px;
   margin-bottom: 20px;
 }
-
 .controle label {
   display: block;
   font-weight: bold;
@@ -88,5 +88,9 @@ export default {
   width: 60%;
   font-size: inherit;
   border-radius: 5px;
+}
+
+.centralizado {
+  text-align: center;
 }
 </style>
