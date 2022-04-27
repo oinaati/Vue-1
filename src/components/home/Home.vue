@@ -2,20 +2,22 @@
   <div>
     <div>
       <h1 class="centralizado">{{ titulo }}</h1>
+
+      <p v-show="mensagem" class="centralizado">{{ mensagem }}</p>
     </div>
     <!--@ é o mesmo que v-on | $event é do JS onde ele pega tudo o que acontece do que chama ele, no caso o filtro, 
     "target" indica que está no input (onde filtra)-->
 
-      <center>
-        <p>Pesquise:</p>
-        <input
-          type="search"
-          class="filtro"
-          @input="filtro = $event.target.value"
-          placeholder="filtre pelo título"
-        />
-      </center>
-    
+    <center>
+      <p>Pesquise:</p>
+      <input
+        type="search"
+        class="filtro"
+        @input="filtro = $event.target.value"
+        placeholder="filtre pelo título"
+      />
+    </center>
+
     <div class="divisoria">
       <ul class="lista-fotos">
         <!-- v-for="foto of fotosComFiltro" ou v-for="(foto, i) of fotosComFiltro" :key="i"-->
@@ -25,7 +27,11 @@
           :key="i"
         >
           <meu-painel :titulo="foto.titulo">
-            <imagem-responsiva v-meu-transform:scale.animate='1.2' :src="foto.url" :titulo="foto.titulo" />
+            <imagem-responsiva
+              v-meu-transform:scale.animate="1.2"
+              :src="foto.url"
+              :titulo="foto.titulo"
+            />
 
             <meu-botao
               tipo="button"
@@ -58,6 +64,7 @@ export default {
       titulo: "Paisagens",
       fotos: [],
       filtro: "",
+      mensagem: "",
     };
   },
 
@@ -74,13 +81,24 @@ export default {
 
   methods: {
     remove(foto) {
-        alert("Removendo a foto" + foto.titulo);
+      this.resource.delete({ id: foto._id }).then(
+        () => {
+          let indice = this.fotos.indexOf(foto);
+          this.fotos.splice(indice, 1);
+          this.mensagem = "Foto removida com sucesso";
+        },
+        (err) => {
+          console.log(err);
+          this.mensagem = "Não foi possivel remover a foto.";
+        }
+      );
     },
   },
 
   created() {
-    this.$http
-      .get("http://localhost:3000/v1/fotos")
+    this.resource = this.$resource("v1/fotos{/id}");
+    this.resource
+      .query()
       .then((res) => res.json())
       .then((fts) => (this.fotos = fts));
   },
@@ -107,6 +125,4 @@ export default {
   border-radius: 4px;
   margin: 10px;
 }
-
-
 </style>
