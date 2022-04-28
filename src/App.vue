@@ -21,7 +21,7 @@ export default {
 
   data() {
     return {
-      routes,
+      routes: routes.filter(route => route.menu)
     };
   },
 };
@@ -37,7 +37,7 @@ export default {
 .divisoria {
   margin: 5px;
   padding: 5px;
-  background: #EBF4F4;
+  background: #eff3f3;
   box-shadow: 2px 2px 4px #D7D7DE ;
 }
 

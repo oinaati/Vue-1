@@ -32,7 +32,9 @@
               :src="foto.url"
               :titulo="foto.titulo"
             />
-
+            <router-link :to="{ name : 'altera', params: { id: foto._id } }">
+              <meu-botao tipo="button" rotulo="ALTERAR"/>
+            </router-link>
             <meu-botao
               tipo="button"
               rotulo="REMOVER"
@@ -51,6 +53,7 @@
 import Painel from "../shared/painel/Painel.vue";
 import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
 import Botao from "./../shared/botao/Botao.vue";
+import FotoService from "../../domain/foto/FotoService.js";
 
 export default {
   components: {
@@ -81,7 +84,7 @@ export default {
 
   methods: {
     remove(foto) {
-      this.resource.delete({ id: foto._id }).then(
+      this.service.apaga(foto._id).then(
         () => {
           let indice = this.fotos.indexOf(foto);
           this.fotos.splice(indice, 1);
@@ -96,13 +99,13 @@ export default {
   },
 
   created() {
-    this.resource = this.$resource("v1/fotos{/id}");
-    this.resource
-      .query()
-      .then((res) => res.json())
-      .then((fts) => (this.fotos = fts));
-  },
+    this.service = new FotoService(this.$resource);
+
+    this.service.lista()
+      .then(fotos => this.fotos = fotos, err => this.mensagem = err.mensagem);
+  }
 };
+
 </script>
 
 <style>

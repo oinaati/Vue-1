@@ -2,17 +2,39 @@
   <div>
     <h2 class="centralizado">Cadastro</h2>
     <h3 class="centralizado">{{ foto.titulo }}</h3>
+    <h2 v-if="foto._id" class="centralizado">Alterando</h2>
+    <h2 v-else class="centralizado">Incluindo</h2>
 
     <center>
       <form @submit.prevent="grava()">
         <div class="controle">
           <label for="titulo">Titulo</label>
-          <input v-model.lazy="foto.titulo" id="titulo" autocomplete="off" />
+          <input
+            name="titulo"
+            v-validate
+            data-vv-rules="required|min:3|max:30"
+            v-model="foto.titulo"
+            id="titulo"
+            autocomplete="off"
+          />
+          <span class="erro" v-show="errors.has('titulo')">{{
+            errors.first("titulo")
+          }}</span>
         </div>
 
         <div class="controle">
           <label for="url">URL</label>
-          <input v-model.lazy="foto.url" id="url" autocomplete="off" />
+          <input
+            name="url"
+            v-validate
+            data-vv-rules="required"
+            v-model="foto.url"
+            id="url"
+            autocomplete="off"
+          />
+          <span class="erro" v-show="errors.has('url')">{{
+            errors.first("url")
+          }}</span>
         </div>
 
         <div class="controle">
@@ -26,7 +48,7 @@
 
         <div class="centralizado">
           <meu-botao rotulo="GRAVAR" tipo="submit" />
-          <router-link to="/">
+          <router-link :to="{ name: 'home' }">
             <meu-botao rotulo="VOLTAR" tipo="button" />
           </router-link>
         </div>
@@ -46,6 +68,7 @@
 import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
 import Botao from "../shared/botao/Botao.vue";
 import Foto from "../../domain/foto/Foto.js";
+import FotoService from "../../domain/foto/FotoService.js";
 
 export default {
   components: {
@@ -56,24 +79,35 @@ export default {
   data() {
     return {
       foto: new Foto(),
-      resource: {}
+      id: this.$route.params.id,
     };
   },
 
   methods: {
     grava() {
-      console.log(this.fotos);
-
-      this.resource
-      .save(this.foto)
-      .then(() => (this.foto = new Foto(), err => console.log(err)));
+      this.$validator
+        .validateAll()
+        .then((success) => {
+          if (success) {
+            this.service.cadastra(this.foto).then(
+              () => {
+                if (this.id) this.$router.push({ name: "home" });
+                this.foto = new Foto();
+              },
+              (err) => console.log(err)
+            );
+          }
+      });
     },
   },
 
-    created() {
-      this.resource = this.$resource("v1/fotos{/id}");
+  created() {
+    this.service = new FotoService(this.$resource);
+
+    if (this.id) {
+      this.service.busca(this.id).then((foto) => (this.foto = foto));
     }
-  
+  },
 };
 </script>
 
@@ -99,5 +133,10 @@ export default {
 
 .centralizado {
   text-align: center;
+}
+
+.erro {
+  color: red;
+  font-size: 14px;
 }
 </style>
