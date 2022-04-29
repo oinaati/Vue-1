@@ -1,9 +1,9 @@
 <template>
   <div class="divisoria">
-    <nav>
-      <ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <ul class="navbar-nav">
         <!--v-for="route in routes"-->
-        <li v-for="(rota, i) of rotas" :key="i">
+        <li class="nav-item active" v-for="(rota, i) of rotas" :key="i">
           <router-link :to="rota.path ? rota.path : '/'">
             {{ rota.titulo }}
           </router-link>

@@ -7,49 +7,66 @@
 
     <center>
       <form @submit.prevent="grava()">
-        <div class="controle">
-          <label for="titulo">Titulo</label>
-          <input
-            name="titulo"
-            v-validate
-            data-vv-rules="required|min:3|max:30"
-            v-model="foto.titulo"
-            id="titulo"
-            autocomplete="off"
-          />
+        <div class="form-group row">
+          <label for="titulo" class="col-sm-1 col-form-label col-form-label-sm"
+            >Titulo</label
+          >
+          <div class="col-sm-10">
+            <input
+              name="titulo"
+              class="form-control form-control-sm shadow-sm p-3 mb-5 bg-white rounded" 
+              v-validate
+              data-vv-rules="required|min:3|max:30"
+              v-model="foto.titulo"
+              id="titulo"
+              autocomplete="off"
+            />
+          </div>
           <span class="erro" v-show="errors.has('titulo')">{{
             errors.first("titulo")
           }}</span>
         </div>
 
-        <div class="controle">
-          <label for="url">URL</label>
-          <input
-            name="url"
-            v-validate
-            data-vv-rules="required"
-            v-model="foto.url"
-            id="url"
-            autocomplete="off"
-          />
+        <div class="form-group row">
+          <label for="url" class="col-sm-1 col-form-label col-form-label-sm"
+            >URL</label
+          >
+          <div class="col-sm-10">
+            <input
+              name="url"
+              class="form-control form-control-sm shadow-sm p-3 mb-5 bg-white rounded"
+              v-validate
+              data-vv-rules="required"
+              v-model="foto.url"
+              id="url"
+              autocomplete="off"
+            />
+          </div>
           <span class="erro" v-show="errors.has('url')">{{
             errors.first("url")
           }}</span>
         </div>
 
-        <div class="controle">
-          <label for="descricao">Descrição</label>
-          <textarea
-            id="descricao"
-            autocomplete="off"
-            v-model="foto.descricao"
-          ></textarea>
+        <div class="form-group row">
+          <label
+            for="descricao"
+            class="col-sm-1 col-form-label col-form-label-sm"
+            >Descrição</label
+          >
+          <div class="col-sm-10">
+            <textarea
+              id="descricao"
+              class="form-control shadow-sm p-3 mb-5 bg-white rounded"
+              autocomplete="off"
+              v-model="foto.descricao"
+            ></textarea>
+          </div>
         </div>
 
         <div class="centralizado">
-          <meu-botao rotulo="GRAVAR" tipo="submit" />
+          <meu-botao rotulo="GRAVAR" tipo="submit" class="btn btn-primary btn-sm"/>
           <router-link :to="{ name: 'home' }">
-            <meu-botao rotulo="VOLTAR" tipo="button" />
+            <meu-botao rotulo="VOLTAR" tipo="button" class="btn btn-secondary btn-sm" />
           </router-link>
         </div>
 
@@ -85,18 +102,16 @@ export default {
 
   methods: {
     grava() {
-      this.$validator
-        .validateAll()
-        .then((success) => {
-          if (success) {
-            this.service.cadastra(this.foto).then(
-              () => {
-                if (this.id) this.$router.push({ name: "home" });
-                this.foto = new Foto();
-              },
-              (err) => console.log(err)
-            );
-          }
+      this.$validator.validateAll().then((success) => {
+        if (success) {
+          this.service.cadastra(this.foto).then(
+            () => {
+              if (this.id) this.$router.push({ name: "home" });
+              this.foto = new Foto();
+            },
+            (err) => console.log(err)
+          );
+        }
       });
     },
   },
